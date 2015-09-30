@@ -1,0 +1,10 @@
+# Ignore bundler config
+.DS_Store
+/.bundle
+
+# Ignore the default SQLite database.
+
+
+# Ignore all logfiles and tempfiles.
+Gemfile.lock
+*.do_not_track
