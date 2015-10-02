@@ -6,18 +6,18 @@
 
 ######################
 require_relative 'helper'
-require_relative '../lib/mail_genie.rb'
+require_relative '../lib/mail_runner.rb'
 
 class TestMailGetter < Minitest::Test
 	
 	####### Top Level Call Tests ##########
 	describe 'Mail Getter bot initialize' do
 		before do
-			@bot = MailGenie::MailGetterBot.new
+			@bot = MailRunner::MailGetterBot.new
 		end
 
 		it "Getter Bot & atributes exist" do
-			assert_instance_of MailGenie::MailGetterBot, @bot 
+			assert_instance_of MailRunner::MailGetterBot, @bot 
 			assert_equal nil, @bot.mailbox
 			assert_equal nil, @bot.webhook 
 			assert_equal false, @bot.archive
@@ -29,7 +29,7 @@ class TestMailGetter < Minitest::Test
 
 	describe "Parse Options method" do
 		before do
-			@bot = MailGenie::MailGetterBot.new
+			@bot = MailRunner::MailGetterBot.new
 			@opts = {:mailbox => "box_name", :webhook => "webhook/path"}
 		end
 
@@ -49,7 +49,7 @@ class TestMailGetter < Minitest::Test
 
 	describe "Run Method" do
 		before do
-			@bot = MailGenie::MailGetterBot.new
+			@bot = MailRunner::MailGetterBot.new
 			@bot.mailbox = "/var/mail/root" #app 
 			@bot.webhook = "http://127.0.0.1:4000/talkpost"
 		end

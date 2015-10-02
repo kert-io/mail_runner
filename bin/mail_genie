@@ -1,6 +1,0 @@
-#!/usr/bin/env ruby
-
-#require 'mail_genie' 
-require_relative '../lib/mail_genie.rb' # use during dev to avoid rebuilding gem
-
-MailGenie::CLI.start(ARGV)

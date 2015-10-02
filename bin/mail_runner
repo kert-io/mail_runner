@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+#require 'mail_runner' 
+require_relative '../lib/mail_runner.rb' # use during dev to avoid rebuilding gem
+
+MailRunner::CLI.start(ARGV)

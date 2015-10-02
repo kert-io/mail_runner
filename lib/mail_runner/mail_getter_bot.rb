@@ -4,7 +4,7 @@ require 'base64'
 require 'rest-client'
 require 'redis'
 
-module MailGenie
+module MailRunner
 
 	class MailGetterBot 
 

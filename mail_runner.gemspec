@@ -1,20 +1,20 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "mail_genie/version"
+require "mail_runner/version"
 
 Gem::Specification.new do |s|
-  s.name        = "mail_genie"
-  s.version     = MailGenie::VERSION
+  s.name        = "mail_runner"
+  s.version     = MailRunner::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Kert Heinecke"]
   s.email       = ["kert@sakuru.io"]
-  s.homepage    = "https://github.com/kert-io/mailGenie"
-  s.summary     = %q{Gem for inbound mail. Creates separate worker process for delivery to app. Includes a bunch mail processing helpers inside app}
-  s.description = %q{Gem for inbound mail. Creates separate worker process for delivery to app. Includes a bunch mail processing helpers inside app}
+  s.homepage    = "https://github.com/kert-io/mailRunner"
+  s.summary     = %q{Gem for inbound mail via Postfix MTA. Creates separate worker process for delivery to app.}
+  s.description = %q{Gem for inbound mail via Postfix MTA. Creates separate worker process for delivery to app.}
   s.license     = 'MIT'
 
   #s.files         = `git ls-files`.split("\n") #only works once committed to git
-  s.files       = ["lib/mail_genie.rb", "lib/mail_genie/mail_getter_bot.rb", "lib/mail_genie/bot_helpers.rb"]
+  s.files       = ["lib/mail_runner.rb", "lib/mail_runner/mail_getter_bot.rb", "lib/mail_runner/bot_helpers.rb"]
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
