@@ -38,7 +38,7 @@ module MailRunner
 
 		def self.run(opts)
     	begin
-			  bot = MailRunner::MailGetterBot.new
+			  bot = MailRunner.initialize_manager_bot
 			  bot.initiate(opts)
 			rescue => e
 			  puts e.message
