@@ -21,6 +21,7 @@ module BotHelpers
     def self.test_webhook(url) 
     	begin
     		response = RestClient.head url
+        MailRunner.manager_bot.update_webhook_status("live")
     	rescue 
     		raise ArgumentError, "ERROR: \nMake sure the server is running and the webhook exists.\nNOTE:  Server must respond to http HEAD method.\nSee README.md for proper setup.\n"
     	end
@@ -28,6 +29,15 @@ module BotHelpers
     		raise ArgumentError, "ERROR: Invalid Webhook. NOTE, Must respond to http HEAD method."
     	end
     end
+
+    def self.soft_test_webhook(url) 
+      begin
+        response = RestClient.head url
+        MailRunner.manager_bot.update_webhook_status("live")
+      rescue 
+      end
+    end
+
   end
 
 end

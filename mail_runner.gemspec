@@ -32,4 +32,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'minitest/reporters', "~> 1.1.2"
   s.add_development_dependency 'minitest-spec-context', "~> 0.0.3"
   s.add_development_dependency 'rake/testtask'
+  s.add_development_dependency 'mock_redis', '~> 0.15.3'
 end

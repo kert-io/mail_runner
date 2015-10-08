@@ -1,64 +1,8 @@
-#####################
-# Several tests require a live server behind the test webhook.  
-# will cause sveral fails if not. Must be Post method.
-
-
-
-######################
 require_relative 'helper'
-require_relative '../lib/mail_runner.rb'
 
-class TestMailGetter < Minitest::Test
-	
-	####### Top Level Call Tests ##########
-	describe 'Mail Getter bot initialize' do
-		before do
-			@bot = MailRunner::MailGetterBot.new
-		end
+class TestBotHelpers < Minitest::Test
 
-		it "Getter Bot & atributes exist" do
-			assert_instance_of MailRunner::MailGetterBot, @bot 
-			assert_equal nil, @bot.mailbox
-			assert_equal nil, @bot.webhook 
-			assert_equal false, @bot.archive
-		end
-
-		it "includes BotHelpers" do
-		end
-	end
-
-	describe "Parse Options method" do
-		before do
-			@bot = MailRunner::MailGetterBot.new
-			@opts = {:mailbox => "box_name", :webhook => "webhook/path"}
-		end
-
-		it "assigns passed arguments as getter bot attributes" do
-			@bot.parse_options(@opts)
-			assert_equal "/var/mail/box_name", @bot.mailbox
-			assert_equal "webhook/path", @bot.webhook
-			assert_equal false, @bot.archive
-		end
-
-		it "archive = true if passed archive argument" do
-			@opts[:archive] = "true"
-			@bot.parse_options(@opts)
-			assert_equal true, @bot.archive
-		end
-	end
-
-	describe "Run Method" do
-		before do
-			@bot = MailRunner::MailGetterBot.new
-			@bot.mailbox = "/var/mail/root" #app 
-			@bot.webhook = "http://127.0.0.1:4000/talkpost"
-		end
-
-	end
- ########################################
-
-
- ####### BotHelpers::Tests ###########
+####### BotHelpers::Tests ###########
 	describe "test BotHelpers:: Tests" do
 		before do
 			@opts ={
@@ -124,7 +68,6 @@ class TestMailGetter < Minitest::Test
 					#insert test content into mailbox for test.
 					`cp #{Dir[File.dirname(__FILE__)][0] + "/test_assets/test.email"} /var/mail/talkpost`
 		
-					#assert_instance_of Mail::Message, @runner.get_contents_from_mailbox(@mailbox)
 					object_returned = @runner.get_contents_from_mailbox(@mailbox)
 					assert_instance_of Array, object_returned
 					assert_equal 1, object_returned.length #confirms scrubs first empty item in array.
@@ -149,7 +92,7 @@ class TestMailGetter < Minitest::Test
 				assert_equal 200,  @runner.post_to_hook(@webhook, parcel).code
 			end
 
-			it "Returns and error if server down or response not 200" do
+			it "Returns an error if server down or response not 200" do
 				@faulty_webhook = "http://127.0.0.1:4000/faulty_hook"
 				parcel = File.read(("#{Dir[File.dirname(__FILE__)][0] + '/test_assets/empty.txt'}"))
 				assert_raises(ArgumentError) {@runner.post_to_hook(@faulty_webhook, parcel)}
@@ -216,5 +159,4 @@ class TestMailGetter < Minitest::Test
 	end
 ########################################
 
-	
 end
