@@ -3,6 +3,8 @@ require_relative 'helper'
 class TestInboundManager < Minitest::Test
 	
 	#describe "Test Process Inbound Method" do
+
+	#ADD AND FIND EXCEPTION!  e.g. what happens if can convert to json? is mail lost?
 	#end
 
 	describe "Inbound Manager::get_mail" do
@@ -31,8 +33,6 @@ class TestInboundManager < Minitest::Test
 			end
 		end
 	end
-
-
 
 	describe "Inbound Manager::read_mail" do
 		before do
