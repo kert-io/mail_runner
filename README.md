@@ -103,10 +103,18 @@ keys | Value
 ####Monit
 
 #Roadmap
+* Archiving
+* Run from Config file
+* Single bot managing several mailboxes and webhooks
+* Run bots from config file
+* Logging from the daemon
+
+
 #Testing
 #Other helpful setup links
 * Installing Postfix with spamassasin & clamav
 * Setting up Postfix to work with mailrunner
+* Setting up Monit to manage your mailrunner processes
 
 #License
 (The MIT License)
