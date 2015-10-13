@@ -3,10 +3,11 @@ module MailRunner
 	class CLI
 		
 
-		def self.start(args)
-			options = parse_options(args)
-	    run(options)
-		end
+    def self.start(args)
+      options = parse_options(args)
+      daemonize unless options[:daemon].nil?
+      run(options)
+    end
 
 
 		def self.parse_options(argv)
@@ -46,6 +47,16 @@ module MailRunner
 			end
 	  end
 
+    def self.daemonize
+      #eq_to Process.daemon
+      exit if fork
+      Process.setsid
+      exit if fork
+      Dir.chdir "/" 
+      STDIN.reopen "/dev/null"
+      STDOUT.reopen "/dev/null", "a" 
+      STDERR.reopen "/dev/null", "a" 
+    end
 	end
 end
 
