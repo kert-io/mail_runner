@@ -22,7 +22,7 @@ module BotHelpers
 
     def self.post_to_hook(webhook, parcel)
       begin
-      	response = RestClient.post webhook, :local_mail_event => parcel, :content_type => :json, :accept => :json
+      	response = RestClient.post webhook, :mail_runner_envelope => parcel, :content_type => :json, :accept => :json
         puts "#{response.code}"
         puts "#{response.headers}\n\n"
         MailRunner.manager_bot.update_webhook_status("live")
