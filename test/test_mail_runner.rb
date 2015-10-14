@@ -56,8 +56,4 @@ class TestMailRunnerManager < Minitest::Test
 	end
  ########################################
 
-
- 
-
-	
 end

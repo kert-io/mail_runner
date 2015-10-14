@@ -1,5 +1,5 @@
 #mail_runner
-WORK IN PROGRESS. See Roadmap below for features not yet completed.
+**WORK IN PROGRESS**. See Roadmap below for features not yet completed.
 
 MailRunner acts as your mailman picking up your email from an [MTA](https://en.wikipedia.org/wiki/Message_transfer_agent), such as Postfix, and then delivering it directly to your app sending each email object as json to webhook.  You can tell it to deliver locally or send it to any active webhook making it a functional mailserver for several apps.
 
@@ -21,7 +21,9 @@ Mailrunner is built with a CLI that is used to launch each bot. When in doubt ab
 ```
 mailrunner -h
 ```
+
 the basic commands
+
 ```
 Usage: mail_runner [options]
     -m, --mailbox MAILBOX            Name of Mailbox to watch

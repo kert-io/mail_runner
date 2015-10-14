@@ -22,7 +22,7 @@ module MailRunner
         end
 
         o.on '-a', '--archive', "Set to true id you want mail archived." do |arg|
-          opts[:webhook] = arg
+          opts[:a] = arg
         end
 
         o.on '-d', '--daemon', "Daemonize process" do |arg|
@@ -30,7 +30,7 @@ module MailRunner
         end
 
         o.on '-c', '--config', "Path to YAML config file." do |arg|
-          opts[:daemon] = arg
+          opts[:config] = arg
         end
       end
       @parser.parse!(argv)
