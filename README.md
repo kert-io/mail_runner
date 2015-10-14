@@ -1,4 +1,6 @@
 #mail_runner
+WORK IN PROGRESS. See Roadmap below for features not yet completed.
+
 MailRunner acts as your mailman picking up your email from an [MTA](https://en.wikipedia.org/wiki/Message_transfer_agent), such as Postfix, and then delivering it directly to your app sending each email object as json to webhook.  You can tell it to deliver locally or send it to any active webhook making it a functional mailserver for several apps.
 
 MailRunner, although packaged as a gem, only provides a [CLI](https://en.wikipedia.org/wiki/Command-line_interface).  You can launch one or several mailrunner bots via the CLI, daemonize them to run permanently or manage them using a process manager such as monit.  This also means, you can use it as a standalone ruby mail service alongside apps in any other language.
