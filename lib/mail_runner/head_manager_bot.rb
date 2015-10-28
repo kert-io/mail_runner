@@ -29,10 +29,9 @@ module MailRunner
     end
 
 
-    def initiate(opts)
-    	parse_options(opts)
+    def verify_and_set(opts)
+      parse_options(opts)
       test_options       
-      run
     end
 
     def parse_options(opts)

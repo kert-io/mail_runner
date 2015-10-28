@@ -36,7 +36,6 @@ module MailRunner
       rescue Exception => msg 
         #interrupt exception here, so rest of inbound mail can be processed and added to queue.
         #otherwise, it will be lost.
-        puts msg.inspect
         queued = MailRunner::QueueManagerBot.add_to_mail_queue(webhook, json_packet)
       end
     end

@@ -5,8 +5,11 @@ module MailRunner
 
     def self.start(args)
       options = parse_options(args)
+      initialize_logger(options)
+      @bot = initialize_manager_bot(options)
+      #run this first to make sure it runs bot tests prior to daemonizing a process.
       daemonize unless options[:daemon].nil?
-      run(options)
+      @bot.run
     end
 
 
@@ -22,29 +25,38 @@ module MailRunner
         end
 
         o.on '-a', '--archive', "Set to true id you want mail archived." do |arg|
-          opts[:a] = arg
+          opts[:archive] = arg
         end
 
-        o.on '-d', '--daemon', "Daemonize process" do |arg|
+        o.on '-d', '--daemon', "Daemonize process. Be sure to add logfile path." do |arg|
           opts[:daemon] = arg
         end
 
-        o.on '-c', '--config', "Path to YAML config file." do |arg|
+        o.on '-L', '--logfile PATH', "Absolute path to log file." do |arg|
+          opts[:logfile] = arg
+        end
+
+        o.on '-c', '--config PATH', "Path to YAML config file." do |arg|
           opts[:config] = arg
+        end
+
+        o.on '-v', '--verbose', "Logger runs in debug mode." do |arg|
+          opts[:verbose] = arg
         end
       end
       @parser.parse!(argv)
       opts
     end
 
-		def self.run(opts)
+		def self.initialize_manager_bot(opts)
     	begin
 			  bot = MailRunner.initialize_manager_bot
-			  bot.initiate(opts)
+			  bot.verify_and_set(opts)
 			rescue => e
 			  puts e.message
 			  exit 1
 			end
+      return bot
 	  end
 
     def self.daemonize
@@ -56,6 +68,18 @@ module MailRunner
       STDIN.reopen "/dev/null"
       STDOUT.reopen "/dev/null", "a" 
       STDERR.reopen "/dev/null", "a" 
+    end
+
+    def self.initialize_logger(options)
+      begin
+        MailRunner::Logging.initialize_logger(options[:logfile]) if options[:logfile]
+        MailRunner::Logging.add_log_file_section_header if options[:logfile]
+        MailRunner.logger.level = ::Logger::DEBUG if options[:verbose]
+      rescue => e #primarily to alert invald log path in case of daemon
+        puts e.message
+        exit 1
+      end
+      $logger = MailRunner.logger
     end
 	end
 end

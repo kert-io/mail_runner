@@ -1,13 +1,12 @@
 module BotHelpers
-
 	module Tests  #series of initial command validation tests on launch. 
   	def self.all_args_included?(args)
     	if args[:mailbox].nil? or args[:webhook].nil?
     		raise ArgumentError, 'You must include mailbox & webhook minimum. Archive argument is optional. Add -h to see help.' 
   		end
-  		if args.size > 3
-    		raise ArgumentError, 'You can only include mailbox, webhook & Archive argument. 3 max! Add -h to see help.' 
-  		end
+  		#if args.size > 3
+    	#	raise ArgumentError, 'You can only include mailbox, webhook & Archive argument. 3 max! Add -h to see help.' 
+  		#end
 	  		#?test format of mailbox?
 	  		#? test valid webhook format?
   	end
@@ -34,6 +33,7 @@ module BotHelpers
       begin
         response = RestClient.head url
         MailRunner.manager_bot.update_webhook_status("live")
+        $logger.info("ManagerBot") {"webhook status: live"}
       rescue 
       end
     end

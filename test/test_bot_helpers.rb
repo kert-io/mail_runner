@@ -18,11 +18,7 @@ class TestBotHelpers < Minitest::Test
 			assert_raises(ArgumentError) {@test.all_args_included?(@opts)}
 		end
 
-		it "Error - .all_args_included? if arguments more than 3" do
-			@opts[:three] = "three"
-			@opts[:four] = " four"
-			assert_raises(ArgumentError) {@test.all_args_included?(@opts)}
-		end
+		#Create test for other arguments like daemonize, log, etc
 
 		it "Passes - .all_args_included? if 2 or 3 arguments." do
 			assert_silent {@test.all_args_included?(@opts)}

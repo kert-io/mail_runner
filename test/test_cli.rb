@@ -17,7 +17,13 @@ class TestCLI< Minitest::Test
 			end
 		end
 	end
+	describe "demonization upon start" do
 
+		#create some set up where it makes sure server is down and test -d flag
+		it "does not daemonize if the mailbox or webhook is invalid" do
+			
+		end
+	end
 
 
 	
