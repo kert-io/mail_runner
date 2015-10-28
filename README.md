@@ -29,7 +29,7 @@ Usage: mail_runner [options]
     -m, --mailbox MAILBOX            Name of Mailbox to watch
     -w, --webhook URL                Complete url of webhook to deliver mail to
     -a, --archive                    Set to true id you want mail archived.
-    -d, --daemon                     Daemonize process
+    -d, --daemon                     Daemonize process. Be sure to add logfile path.
     -c, --config                     Path to YAML config file.
 ```
 
@@ -99,7 +99,14 @@ keys | Value
 **content**| raw content of file
 **base64**|	boolean - Base64 encoded?
 
-### Additional Options
+
+## Additional Options
+####Daemonize
+ use the `-d ` flag to turn mailrunner into a [daemon](https://en.wikipedia.org/wiki/Daemon_(computing)) & keep it running in the the background.  When running as a daemon, be sure to set the logfile path using the ` -L ` flag.
+
+####Logging
+  Mailrunner wil output all logging info to STDOUT if no logfile path is set.  To set a logfile path, use the `-L path/to/logfile.log ` flag followed by the absolute path to the logfile location.   If the file doesn't exist, it will be created, but the directory path must still be valid.
+  
 ####archive
 ####Config
 # Other usage Scenarios
@@ -111,7 +118,7 @@ keys | Value
 * Run from Config file
 * Single bot managing several mailboxes and webhooks
 * Run bots from config file
-* Logging from the daemon
+* test server
 
 
 #Testing
