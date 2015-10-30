@@ -4,17 +4,18 @@ module BotHelpers
     def self.get_contents_from_mailbox(mailbox)
       unless File.zero?(mailbox)
 
-        raw_contents = File.read(mailbox)
+        file = File.open(mailbox, 'r+')
+        file.flock(File::LOCK_EX)     #lock file so no other process uses it while open. NOTE: lock before read, so other locks can finish executing.
+        raw_contents = file.read      # read contents to var so we can release lock and process later
+        file.truncate(0)              #clear mbox file once read
+        file.close                    #close file to release lock prior to processing contents.
+      
+        #porcess Mail content into array of individual messages
         raw_mail = raw_contents.split(BotHelpers::Helpers::REGEX_POSTFIX_MESSAGE_DELIMITER)
-
         unless raw_mail.size <= 1
           raw_mail.shift #remove empty from split
         end
 
-        #Clean mailbox.
-        raw = File.open(mailbox, 'r+')
-        raw.truncate(0) 
-        raw.close
         $logger.info("Runner") { "#get_contents_from_mailbox:: #{raw_mail.size} Mail messagess retrieved"}
         return raw_mail
       end
