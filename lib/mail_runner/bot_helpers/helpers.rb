@@ -1,7 +1,8 @@
 module BotHelpers
   module Helpers
-    #REGEX_POSTFIX_MESSAGE_DELIMITER = /^From\W\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b\W+[a-zA-Z]{3}\W[a-zA-Z]{3}\W\d{1,2}\W\d{2}:\d{2}:\d{2}\W\d{4}\n/
-    REGEX_POSTFIX_MESSAGE_DELIMITER =/^From\W\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b\W{1,}[a-zA-Z]{3}\W{1,}\w{3}\W{1,}\d{1,2}\W\d{2}:\d{2}:\d{2}\W\d{4}\n/
+    #Based on Mbox protocol. maildir not yet supported.
+    #? in ?\.?[a-zA-Z]{2,4} makes compatible with local mail and internal process logging.
+    REGEX_POSTFIX_MESSAGE_DELIMITER =/^From\W\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+?\.?[a-zA-Z]{2,4}\b\W{1,}[a-zA-Z]{3}\W{1,}\w{3}\W{1,}\d{1,2}\W\d{2}:\d{2}:\d{2}\W\d{4}\n/
   	def self.print_monitoring_started_msg(bot)
   		$logger.info("Helpers") { "mailbox: #{bot.mailbox}" }
   		$logger.info("Helpers") { "path: #{bot.webhook}"}
