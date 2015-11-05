@@ -8,8 +8,12 @@ module MailRunner
 	    oldlogger = defined?(@logger) ? @logger : nil
 	    @logger = Logger.new(log_target, 'weekly')
 	    @logger.level = Logger::INFO
-	    @logger.datetime_format = '%Y-%m-%d %H:%M:%S'
-	    #@logger.formatter = ENV['DYNO'] ? WithoutTimestamp.new : Pretty.new
+	    @logger.formatter = proc do |severity, datetime, progname, msg|
+		    date_format = datetime.strftime("%b %d %H:%M:%S ")    
+		    "#{date_format} #{severity} (#{progname}): #{msg}\n"
+			end
+
+
 	    oldlogger.close if oldlogger && !$TESTING # don't want to close testing's STDOUT logging
 	    @logger
 	  end
