@@ -9,7 +9,7 @@ require_relative '../lib/mail_runner.rb'
 
 #Use Mock Redis during testing - Can't use any blocking methods!!
 $redis = MockRedis.new(:host => 'localhost')
-
+$mad_statter = MailRunner::MadStatter
 $logger = MailRunner::Logging.logger #needed or causes errors in tests
 $logger.level = Logger::FATAL #turn off logging info during tests
 
