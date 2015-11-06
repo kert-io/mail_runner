@@ -1,3 +1,4 @@
+require 'yaml'
 require 'optparse'
 module MailRunner
 	class CLI
@@ -9,7 +10,7 @@ module MailRunner
       set_globals
       
       @bot = initialize_manager_bot(options)#run first to make sure it runs bot tests prior to daemonizing a process.
-      daemonize unless options[:daemon].nil?
+      daemonize if options[:daemon] && options[:daemon] == true
       @bot.run
     end
 
@@ -46,7 +47,14 @@ module MailRunner
         end
       end
       @parser.parse!(argv)
+      if opts[:config]
+        opts = parse_config(opts[:config]).merge(opts)
+      end
       opts
+    end
+
+    def self.parse_config(cf_path)
+      YAML.load_file(cf_path)
     end
 
 		def self.initialize_manager_bot(opts)
@@ -75,7 +83,7 @@ module MailRunner
       begin
         MailRunner::Logging.initialize_logger(options[:logfile]) if options[:logfile]
         MailRunner::Logging.add_log_file_section_header if options[:logfile]
-        MailRunner.logger.level = ::Logger::DEBUG if options[:verbose]
+        MailRunner::Logging.logger.level = ::Logger::DEBUG if options[:verbose]
       rescue => e #primarily to alert invald log path in case of daemon
         puts e.message
         exit 1
@@ -84,6 +92,23 @@ module MailRunner
 
     def self.set_globals
       MailRunner.set_globals
+    end
+
+    def self.banner
+      %q{
+               m,
+               `$b
+          .ss,  $$:         .,d$
+          `$$P,d$P'    .,md$P"'
+           ,$$$$$bmmd$$$P^'
+         .d$$$$$$$$$$P'
+         $$^' `"^$$$'       ____  _     _      _    _
+         $:     ,$$:       / ___|(_) __| | ___| | _(_) __ _
+         `b     :$$        \___ \| |/ _` |/ _ \ |/ / |/ _` |
+                $$:         ___) | | (_| |  __/   <| | (_| |
+                $$         |____/|_|\__,_|\___|_|\_\_|\__, |
+              .d$$                                       |_|
+      }
     end
 	end
 end
