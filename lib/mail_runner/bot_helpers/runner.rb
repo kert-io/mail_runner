@@ -25,11 +25,13 @@ module BotHelpers
       begin
       	response = RestClient.post webhook, :mail_runner_envelope => parcel, :content_type => :json, :accept => :json
         
+        $mad_statter.incr_stat("mail delivered")
         $logger.info("Runner") { 
           "#post_to_hook::response code:#{response.code}\n" + 
           "\tEmail from: #{JSON.parse(parcel)[0]['msg']['from_email']}  to: #{JSON.parse(parcel)[0]['msg']['email']}\n" + 
           "\tPosted to: #{webhook}"
         }
+
         $logger.debug("Runner") { "#post_to_hook::response header:#{response.headers}"}
         
         MailRunner.manager_bot.update_webhook_status("live")

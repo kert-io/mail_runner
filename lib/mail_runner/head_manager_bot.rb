@@ -53,7 +53,7 @@ module MailRunner
 
     def run
     	BotHelpers::Helpers.print_monitoring_started_msg(self)
-    	
+    	$mad_statter.incr_stat("runner launched")
     	while true 
 
     		delegate_inbound_processing

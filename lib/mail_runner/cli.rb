@@ -6,8 +6,9 @@ module MailRunner
     def self.start(args)
       options = parse_options(args)
       initialize_logger(options)
-      @bot = initialize_manager_bot(options)
-      #run this first to make sure it runs bot tests prior to daemonizing a process.
+      set_globals
+      
+      @bot = initialize_manager_bot(options)#run first to make sure it runs bot tests prior to daemonizing a process.
       daemonize unless options[:daemon].nil?
       @bot.run
     end
@@ -79,7 +80,10 @@ module MailRunner
         puts e.message
         exit 1
       end
-      $logger = MailRunner.logger
+    end
+
+    def self.set_globals
+      MailRunner.set_globals
     end
 	end
 end
