@@ -1,10 +1,12 @@
 Dir[File.dirname(__FILE__) + '/mail_runner/*.rb'].each {|file| require file }
 
 module MailRunner
+  $redis = Redis.new(:host => 'localhost')
+  
 	def self.set_globals
     $logger = MailRunner::Logging.logger
     $mad_statter = MailRunner::MadStatter
-    $redis = Redis.new(:host => 'localhost')
+    $logger.debug { "Mailrunner initialized in debug mode." }
   end
 
 	def self.manager_bot

@@ -27,7 +27,7 @@ module MailRunner
     end 
 
     def self.add_log_file_section_header
-	    @logger.info{"\n\nInitiate LogFile #{Time.now}\n########################################################"}
+	    @logger.info{"\n\nInitiate LogFile :: Session #{$redis.get("MR::sessions").to_i + 1} :: #{Time.now}\n########################################################"}
 	  end
   end
 end
