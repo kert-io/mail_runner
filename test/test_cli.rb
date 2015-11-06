@@ -25,6 +25,38 @@ class TestCLI< Minitest::Test
 		end
 	end
 
+	describe 'with logfile' do
+      before do
+      	@cli = MailRunner::CLI
+        @tmp_log_path = '/tmp/mailrunner.log'
+        @options = @cli.parse_options(['mailrunner', '-L', @tmp_log_path])
+        @logger = Logger.new(@options[:logfile]) #Bypass logger in helper file so can create new one with tmp path
+      end
+      after do 
+      	File.unlink @tmp_log_path if File.exist?(@tmp_log_path)
+      end
+
+      it 'sets the logfile path' do
+        assert_equal @tmp_log_path, @options[:logfile]
+      end
+
+      it 'creates and writes to a logfile' do
+        @logger.info('test message')
+        assert_match(/test message/, File.read(@tmp_log_path), "didn't include the log message")
+      end
+
+      it 'appends messages to a logfile' do
+        File.open(@tmp_log_path, 'w') do |f|
+          f.puts 'Existing log message'
+        end
+       	@logger.info('test message')
+
+        log_file_content = File.read(@tmp_log_path)
+        assert_match(/Existing log message/, log_file_content, "didn't include the old message")
+        assert_match(/test message/, log_file_content, "didn't include the new message")
+      end
+    end
+
 
 	
 end
