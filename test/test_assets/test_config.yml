@@ -1,0 +1,19 @@
+# Mailrunner config file. 
+#To use the config file, just add teh -c flag when launching mailrunner.
+# mailrunner -c /absolute/path_to/config.yml
+#absolute means '~/' must be written as '/home/username/...'
+################################################
+
+:mailbox: test_mailbox #mbox file name
+:webhook: localhost:4000/test_hook
+:archive:
+  :provider: rackspace
+  :username: name
+  :api_key: key
+  :region: :iad
+:logfile: /home/user/mailrunner.log 
+:daemon:  false
+:verbose: false #run in debug mode - adds a few more notes to help track down bugs.
+
+
+
