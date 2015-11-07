@@ -30,7 +30,9 @@ Usage: mail_runner [options]
     -w, --webhook URL                Complete url of webhook to deliver mail to
     -a, --archive                    Set to true id you want mail archived.
     -d, --daemon                     Daemonize process. Be sure to add logfile path.
+    -L, --logfile                    Absolute path to log file.
     -c, --config                     Path to YAML config file.
+    -v, --verbose                    Logger runs in debug mode.
 ```
 
 The mailbox and webhook options are required; all others are optional.  
@@ -104,13 +106,18 @@ If for any reason, mailrunner is not able to deliver the mail to the specified w
 
 ## Additional Options
 ####Daemonize
- use the `-d ` flag to turn mailrunner into a [daemon](https://en.wikipedia.org/wiki/Daemon_(computing)) & keep it running in the the background.  When running as a daemon, be sure to set the logfile path using the ` -L ` flag.
+ Use the `-d ` flag to turn mailrunner into a [daemon](https://en.wikipedia.org/wiki/Daemon_(computing)) & keep it running in the the background.  When running as a daemon, be sure to set the logfile path using the ` -L ` flag.
 
 ####Logging
   Mailrunner wil output all logging info to STDOUT if no logfile path is set.  To set a logfile path, use the `-L path/to/logfile.log ` flag followed by the absolute path to the logfile location.   If the file doesn't exist, it will be created, but the directory path must still be valid.
   
 ####archive
 ####Config
+
+Mailrunner can also be launched with a config file storing all defaults in one place.  When using a config file, you can launch a mailrunner instance with `mailrunner -c /path/to/config.yml` leaving off all typically required flags.  [sample config file](https://gist.github.com/kert-io/3d8d24d048dd25801b7f)
+
+When using a config file you can set your defaults in the config file but still override them for one-off instances using flags.  The instance will launch according to the config file, but override  only the options passed manually with each flag.
+
 # Other usage Scenarios
 ####dtach
 ####Monit
