@@ -109,7 +109,11 @@ If for any reason, mailrunner is not able to deliver the mail to the specified w
  Use the `-d ` flag to turn mailrunner into a [daemon](https://en.wikipedia.org/wiki/Daemon_(computing)) & keep it running in the the background.  When running as a daemon, be sure to set the logfile path using the ` -L ` flag.
 
 ####Logging
-  Mailrunner wil output all logging info to STDOUT if no logfile path is set.  To set a logfile path, use the `-L path/to/logfile.log ` flag followed by the absolute path to the logfile location.   If the file doesn't exist, it will be created, but the directory path must still be valid.
+  Mailrunner wil output all logging info to STDOUT if no logfile path is set.  
+
+  To set a logfile path, use the `-L path/to/logfile.log ` flag followed by the absolute path to the logfile location.   If the file doesn't exist, it will be created, but the directory path must still be valid.
+
+  Mailrunner logging is designed for leaving it running continuously in the background.  So the log doesn't become unusable, logs will automatically archive themselves in the same directory and start a new log each week.  
   
 ####archive
 ####Config
