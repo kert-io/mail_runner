@@ -1,4 +1,14 @@
 language: ruby
 rvm:
   - 2.1.2
+install: gem install mail
+install: gem install json
+install: gem install rest-client
+install: gem install rake
+install: gem install minitest/autorun
+install: gem install minitest/spec
+install: gem install minitest/reporters
+install: gem install minitest-spec-context
+install: gem install rake/testtask
+install: gem install mock_redis
 sudo: required
