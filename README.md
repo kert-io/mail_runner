@@ -1,4 +1,7 @@
 #mail_runner
+
+[![Gem Version](https://badge.fury.io/rb/mail_runner.svg)](https://badge.fury.io/rb/mail_runner) [![Code Climate](https://codeclimate.com/github/kert-io/mail_runner/badges/gpa.svg)](https://codeclimate.com/github/kert-io/mail_runner)
+
 **WORK IN PROGRESS**. See Roadmap below for features not yet completed.
 
 MailRunner acts as your mailman picking up your email from an [MTA](https://en.wikipedia.org/wiki/Message_transfer_agent), such as Postfix, and then delivering it directly to your app sending each email object as json to webhook.  You can tell it to deliver locally or send it to any active webhook making it a functional mailserver for several apps.
