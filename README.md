@@ -128,13 +128,13 @@ When using a config file you can set your defaults in the config file but still 
 
   I prefer to use [Monit](https://mmonit.com/monit/) to manage my worker bots.  Why Monit?  Because I like working with native linux config files when working at the system level. (Many others try to blend conventions and I find it leads to holes in seeing your system and its bugs completely.) 
   
-  Monit will monitor your daemonized processes, restart them in case of failure and dutifully sned you a notification or email with each action.  Makes it possible to pretty much start and walk away. (psst, it does a ton more too!!)
+  Monit will monitor your daemonized processes, restart them in case of failure and dutifully send you a notification or email with each action.  It makes it possible to pretty much start and walk away. (psst, it does a ton more too!!)
   
-  You can tweak mailrunner to run with your preferred, but I offer the monit setup here:
+  You can tweak mailrunner to run with your preferred monitor, but I offer the monit setup here:
 
 **step 1 - Configure Upstart to manage mailrunner at the system service level**
   
-  While monit monitors, [Upstart](http://upstart.ubuntu.com) is the native linux process for starting and stopping processes and keeping track of all system processes. 
+  While monit monitors, it uses Upstart control processes directly. [Upstart](http://upstart.ubuntu.com) is the native linux process for starting and stopping processes and keeping track of all system processes. 
 
 * navigate to init folder where all Upstart config files are stored. Create a new .conf file for mailrunner & open it with text editor:
       
@@ -193,6 +193,8 @@ When using a config file you can set your defaults in the config file but still 
    sudo stop mailrunner
    sudo restart mailrunner
    ```
+
+   * NOTE: You must use the Mailrunner Config file to use Upstart and Monit.  See Mailrunner config section above.  This Upstart config assumes you store the mailrunner_config.yml file in your home directory.
    
 **step 2 - Install and set up Monit to monitor & manage Mailrunner**
 
