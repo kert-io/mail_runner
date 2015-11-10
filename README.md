@@ -122,15 +122,124 @@ Mailrunner can also be launched with a config file storing all defaults in one p
 
 When using a config file you can set your defaults in the config file but still override them for one-off instances using flags.  The instance will launch according to the config file, but override  only the options passed manually with each flag.
 
-# Other usage Scenarios
+## Other usage Scenarios
 ####dtach
-####Monit
+###Monit
 
+  I prefer to use [Monit](https://mmonit.com/monit/) to manage my worker bots.  Why Monit?  Because I like working with native linux config files when working at the system level. (Many others try to blend conventions and I find it leads to holes in seeing your system and its bugs completely.) 
+  
+  Monit will monitor your daemonized processes, restart them in case of failure and dutifully sned you a notification or email with each action.  Makes it possible to pretty much start and walk away. (psst, it does a ton more too!!)
+  
+  You can tweak mailrunner to run with your preferred, but I offer the monit setup here:
+
+**step 1 - Configure Upstart to manage mailrunner at the system service level**
+  
+  While monit monitors, [Upstart](http://upstart.ubuntu.com) is the native linux process for starting and stopping processes and keeping track of all system processes. 
+
+* navigate to init folder where all Upstart config files are stored. Create a new .conf file for mailrunner & open it with text editor:
+      
+ ```sh
+ cd /etc/init
+ sudo touch mailrunner.conf
+ sudo vim mailrunner.conf
+ ```
+ 
+* Paste the following inside the .conf file. Substitute your username into the setuid & HOME variables in the User Variables section to suit your deployment and save. 
+	* **setuid** - login name of user account you used when installing mailrunner. 
+	* **HOME** - Note this is to locate your locally installed gems using rbenv. You can also modify uncomment th global install setup included as well.
+
+	```sh
+	#   sudo start mailrunner
+	#   sudo stop mailrunner
+	#   sudo status mailrunner
+	#
+	#   or use the service command:
+	#   sudo service mailrunner {start,stop,restart,status}
+	
+	description "Upstart control over MailRunner bots. From ruby gem mail_runner"
+	
+	# no "start on", we don't want to automatically start
+	stop on (runlevel [06])
+	
+	##########################################
+	# change to match your deployment user
+	setuid username
+	env HOME="/home/username"
+	############################################
+	script
+	# this script runs in /bin/sh by default
+	# respawn as bash so we can source in rbenv
+	exec /bin/bash <<'EOT'
+	
+	# pull in system rbenv
+	# source /etc/profile.d/rbenv.sh
+	# or 
+	# pull in user installed rbenv
+	  export PATH="$HOME/.rbenv/bin:$PATH"
+	  eval "$(rbenv init -)"
+	  export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
+	
+	#launch mailrunner
+	  exec mail_runner -c $HOME/mailrunner_config.yml
+	
+	EOT
+	end script
+	```
+       
+   * You can now start and stop mailrunner with the the following system level commands:
+   
+   ```sh
+   sudo start mailrunner
+   sudo stop mailrunner
+   sudo restart mailrunner
+   ```
+   
+**step 2 - Install and set up Monit to monitor & manage Mailrunner**
+
+* Install Monit. see this [gist]() for guidance
+
+With Monit installed, it is easy to set it up to monitor Mailrunner. Monit stores the config files for each process it monitors in the conf.d folder.
+
+* navigate to conf.d folder. Create a new conf file for mailrunner & open it with text editor:
+
+	```sh
+	cd /etc/monit/conf.d
+	sudo touch mailrunner
+	sudo vim mailrunner
+	```
+* Paste the following inside the .conf file & save. You can modify the triggers to suit your workload and resource allocation, but best to just let it run and watch it for a while and fine tune it for you setup.
+
+	```sh
+	 # mailrunner
+  	check process mailrunner
+   	with matching mail_runner
+   	
+   	start program = "/bin/bash -c 'start mailrunner'"
+   	stop program = "/bin/bash -c 'stop mailrunner'"
+   	
+   	#process monitor triggers
+    if cpu is greater than 10% for 2 cycles then alert
+    if mem is greater than 3% for 1 cycles then restart
+    if 3 restarts within 5 cycles then timeout
+	```
+	
+* reload monit settings to pull in your new config
+
+	```sh
+	sudo monit reload
+	```
+* Start mailrunner using monit.  Check status to see it initializing
+
+	```sh
+	sudo monit start mailrunner
+	sudo monit status
+	```
+*  Monit has a ton more features like alerts & notifications.  I highly recommend setting these up and monit will let you know whenever it needs your attention.  Now, relax;-)
+	
+	
 #Roadmap
 * Archiving
-* Run from Config file
 * Single bot managing several mailboxes and webhooks
-* Run bots from config file
 * test server
 
 
