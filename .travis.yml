@@ -6,10 +6,7 @@ install:
   - gem install json
   - gem install rest-client
   - gem install rake
-  - gem install minitest/autorun
-  - gem install minitest/spec
   - gem install minitest/reporters
   - gem install minitest-spec-context
-  - gem install rake/testtask
   - gem install mock_redis
 sudo: required
