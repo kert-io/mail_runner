@@ -93,23 +93,6 @@ module MailRunner
     def self.set_globals
       MailRunner.set_globals
     end
-
-    def self.banner
-      %q{
-               m,
-               `$b
-          .ss,  $$:         .,d$
-          `$$P,d$P'    .,md$P"'
-           ,$$$$$bmmd$$$P^'
-         .d$$$$$$$$$$P'
-         $$^' `"^$$$'       ____  _     _      _    _
-         $:     ,$$:       / ___|(_) __| | ___| | _(_) __ _
-         `b     :$$        \___ \| |/ _` |/ _ \ |/ / |/ _` |
-                $$:         ___) | | (_| |  __/   <| | (_| |
-                $$         |____/|_|\__,_|\___|_|\_\_|\__, |
-              .d$$                                       |_|
-      }
-    end
 	end
 end
 
