@@ -135,5 +135,39 @@ class TestCLI< Minitest::Test
       assert_equal '/home/user/flag.log', @options[:logfile]
     end
   end
+
+  describe 'local archive setup via config' do
+    before do
+      @cli = MailRunner::CLI
+      @options = @cli.parse_options(['mailrunner', '-c', './test/test_assets/test_config.yml'])
+    end
+    
+    it 'sets destination to local' do
+      assert_equal 'local',  @options[:archive][:destination]
+    end
+
+    it 'sets local archive path' do
+      assert_equal '/path/to/local_archive', @options[:archive][:local_archive]
+    end
+  end
+
+  describe 'remote archive setup via config' do
+    before do
+      @cli = MailRunner::CLI
+      @options = @cli.parse_options(['mailrunner', '-c', './test/test_assets/test_config_archive_cloud.yml'])
+    end
+    
+    it 'sets destination to cloud' do
+      assert_equal 'cloud',  @options[:archive][:destination]
+    end
+
+    it 'sets all cloud destination params' do
+      assert_equal 'rackspace', @options[:archive][:provider]
+      assert_equal 'my_name', @options[:archive][:username]
+      assert_equal 'my_api_key', @options[:archive][:api_key]
+      assert_equal :iad, @options[:archive][:region]
+      assert_equal 'raw_msg_archive', @options[:archive][:directory]
+    end
+  end
 	
 end

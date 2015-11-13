@@ -12,11 +12,11 @@
 
 #comment out all below to skip archive feature.
 :archive:
-  :destination: local               #local or cloud
-  :local_archive: /path/to/local_archive #path/to/archive_directory #only if destination set to local. folder must exist prior to launching!!
-#  :provider: rackspace              #Rackspace, AWS
-#  :username: my_name                #Rackspace only 
-#  :api_key: my_api_key                #rackspace 'api_key' or aws 'access_key_id'
+  :destination: cloud               #local or cloud
+# :local_archive: /path/to/local_archive #path/to/archive_directory #only if destination set to local. folder must exist prior to launching!!
+  :provider: rackspace              #Rackspace, AWS
+  :username: my_name                #Rackspace only 
+  :api_key: my_api_key                #rackspace 'api_key' or aws 'access_key_id'
 # :secret_key: some_key             #aws only - 'secret_access_key'
-#  :region: :iad                     #must be set for aws & Rackspace
-#  :directory: raw_msg_archive       #name of cloud directory
+  :region: :iad                     #must be set for aws & Rackspace
+  :directory: raw_msg_archive       #name of cloud directory

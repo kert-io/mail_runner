@@ -26,7 +26,7 @@ module MailRunner
           opts[:webhook] = arg
         end
 
-        o.on '-a', '--archive', "Set to true id you want mail archived." do |arg|
+        o.on '-a', '--archive', "Use config file to setup archive option." do |arg|
           opts[:archive] = arg
         end
 

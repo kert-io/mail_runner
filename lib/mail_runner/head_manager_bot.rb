@@ -3,6 +3,7 @@ require 'json'
 require 'base64'
 require 'rest-client'
 require 'redis'
+require 'fog'
 
 module MailRunner
 
@@ -24,7 +25,7 @@ module MailRunner
     def initialize
       @mailbox = nil
       @webhook = nil
-      @archive = false
+      @archive = nil
       @webhook_status = nil
     end
 
@@ -39,7 +40,7 @@ module MailRunner
     	
     	@mailbox = "/var/mail/#{opts[:mailbox]}"
     	@webhook = opts[:webhook]
-    	@archive = opts[:archive] == "true" ? true : false 
+    	@archive = opts[:archive].nil? ? nil : opts[:archive] 
     end
 
     def update_webhook_status(status)
@@ -48,7 +49,8 @@ module MailRunner
 
     def test_options
     	BotHelpers::Tests.test_mailbox(self.mailbox)
-    	BotHelpers::Tests.test_webhook(self.webhook)
+      BotHelpers::Tests.test_webhook(self.webhook)
+      BotHelpers::Tests.test_archive(self.archive) unless self.archive.nil?
     end
 
     def run
@@ -64,10 +66,15 @@ module MailRunner
     			delegate_delayed_queue_processing
     		end
 
+        if archive_stack?
+          delegate_archive_stack_processing
+        end
+
     		sleep 5
     	end
     end
 
+#### Delegation Methods ####
 
     def inbound_manager
     	MailRunner::InboundManagerBot
@@ -96,6 +103,22 @@ module MailRunner
     	rescue Exception => msg 
     		puts msg.inspect
     	end
+    end
+
+    def archivist
+      MailRunner::ArchivistBot
+    end
+
+    def archive_stack?
+      archivist.stack_height > 0
+    end
+
+    def delegate_archive_stack_processing
+      begin
+        archivist.archive_stack
+      rescue Exception => msg 
+        puts msg.inspect
+      end
     end
 		
 	end

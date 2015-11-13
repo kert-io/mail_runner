@@ -7,8 +7,14 @@ module BotHelpers
   	def self.print_monitoring_started_msg(bot)
   		$logger.info("Helpers") { "mailbox: #{bot.mailbox}" }
   		$logger.info("Helpers") { "path: #{bot.webhook}"}
-  		$logger.info("Helpers") {"archive: #{bot.archive}"}
-  		puts "Getter Bot is on the Job!"
+      unless bot.archive.nil?
+        if bot.archive[:destination] == 'cloud'
+  		  $logger.info("Helpers") {"archive: #{bot.archive[:provider]} :: #{bot.archive[:directory]}"}
+        else
+          $logger.info("Helpers") {"archive: #{bot.archive[:destination]} :: #{bot.archive[:local_archive]}"}
+        end
+      end
+  		puts "Getter Bot is on the Job!" 
   	end
 
     def self.convert_raw_mail_to_json(mail)

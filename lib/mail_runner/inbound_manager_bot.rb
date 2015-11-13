@@ -2,7 +2,7 @@ module MailRunner
 
 	module InboundManagerBot
     
-    def self.process_inbound(mailbox, webhook, archive)
+    def self.process_inbound(mailbox, webhook, archive=nil)
       raw_mail = get_mail(mailbox)
       
       unless raw_mail.nil?
@@ -13,14 +13,17 @@ module MailRunner
           json_packet = BotHelpers::Helpers.convert_raw_mail_to_json(mail)
           
           deliver_mail(webhook, json_packet)
-          
-          if archive == true && queued.nil?
-            puts "we will archive email.\n"
+
+          #Mail archived regardless of delivery errors.
+          #Delayed mail processed by queue manager, so only archived once on initial pickup. 
+          if archive   
+            MailRunner::ArchivistBot.add_to_archive_stack(json_packet, archive)
           end
-          
         end
       end
     end
+
+###Delegation Methods###
 
     def self.get_mail(mailbox)
       BotHelpers::Runner.get_contents_from_mailbox(mailbox) 
@@ -40,6 +43,6 @@ module MailRunner
       end
     end
 
-  end
 
+  end
 end

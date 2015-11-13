@@ -1,0 +1,7 @@
+[{
+	"destination": "cloud",
+	"provider": "Rackspace",
+  "username": "test_username",             
+	"api_key": "RACKSPACE__API_KEY",                                       
+	"directory": "raw_msg_archive" 
+}]

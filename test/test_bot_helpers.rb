@@ -44,6 +44,73 @@ class TestBotHelpers < Minitest::Test
 			assert_raises(ArgumentError) {@test.test_webhook("http://127.0.0.1:4000/faulty_hook")}
 		end
 	end
+
+	describe "test BotHelpers:: Tests :: archive_tests" do
+		context "method : test_archive" do
+			before do
+				@arch_opts ={:destination => 'random'}
+				@test = BotHelpers::Tests
+			end
+			it "raises argument error if destination not cloud or local" do
+				assert_raises(ArgumentError) {@test.test_archive(@arch_opts)}
+			end
+		end
+
+		context "method : test_local_archive" do
+			before do
+				`mkdir /tmp/temp_archive`
+				@arch_opts = {
+					:destination =>  'local',
+					:local_archive => '/tmp/temp_archive'
+				}
+				@test = BotHelpers::Tests
+			end
+			after do 
+				`rm -rf /tmp/temp_archive`
+			end
+
+			it "is silent if directory exists" do
+				assert_silent {@test.test_local_archive(@arch_opts)}
+			end
+
+			it "raises error if directory doesn't exist" do 
+				@arch_opts[:local_archive] = '/tmp/other_archive'
+				assert_raises(ArgumentError) {@test.test_local_archive(@arch_opts)}
+			end
+
+		end
+
+		context "method : test_cloud_archive_connection" do
+			before do
+				require '~/.apikeys'
+				#Set to test live Rackspace account. pulls in keys from require location above. 
+				#to test live, make .apikeys file in home directory and add keys there to keep out of git.
+				#to test only stub, uncomment #Fog.mock! & change username & api_key in arch_opts
+				@test = BotHelpers::Tests
+				#Fog.mock!
+				@arch_opts = {
+					:destination => 'cloud',
+					:provider => 'Rackspace',
+  				:username => "#{RACKSPACE_USERNAME}",             
+			 	 	:api_key => "#{RACKSPACE__API_KEY}",             
+					:secret_key => "sdsd34d334",                             
+					:directory => 'raw_msg_archive' 
+				}
+			end
+			it "successfully connects to cloud archive" do
+				assert_silent {@test.test_cloud_archive_connection(@arch_opts)}
+			end
+
+			it "raises error if fails connect to cloud archive" do
+				@arch_opts[:api_key] = nil
+				assert_raises(ArgumentError) {@test.test_cloud_archive_connection(@arch_opts)}
+			end
+
+		end
+
+	end
+
+
  ########################################
 
 

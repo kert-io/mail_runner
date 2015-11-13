@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
   s.add_dependency "mail", "~> 2.5.4"
   s.add_dependency "json", "~> 1.8.1"
   s.add_dependency "rest-client", "~> 1.8.0"
+  s.add_dependency "fog", "~> 1.23.0"
 
 
   s.add_development_dependency 'rake', "~> 10.3.2"

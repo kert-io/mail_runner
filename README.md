@@ -108,25 +108,33 @@ keys | Value
 If for any reason, mailrunner is not able to deliver the mail to the specified webhook, it will add it to the mailrunner mail queue to process later. The usual reason this occurs is the webhook is unresponsive, it returns an error code or the server is down. Mailrunner will intermittently test the server if this occurs and once it is working properly, it will process the queue.  If mail is not being delivered, you can check the mailrunner log for details on what is happening on mailrunners end.
 
 ## Additional Options
-####Daemonize
+###Daemonize
  Use the `-d ` flag to turn mailrunner into a [daemon](https://en.wikipedia.org/wiki/Daemon_(computing)) & keep it running in the the background.  When running as a daemon, be sure to set the logfile path using the ` -L ` flag.
 
-####Logging
+###Logging
   Mailrunner wil output all logging info to STDOUT if no logfile path is set.  
 
   To set a logfile path, use the `-L path/to/logfile.log ` flag followed by the absolute path to the logfile location.   If the file doesn't exist, it will be created, but the directory path must still be valid.
 
   Mailrunner logging is designed for leaving it running continuously in the background.  So the log doesn't become unusable, logs will automatically archive themselves in the same directory and start a new log each week.  
   
-####archive
-####Config
+###Archive
+Alongside delivery to any webhook hook, Mailrunner also supports archiving your emails. Beyond archival purposes, this is super convenient for chasing down bugs, feature testing, and system error recovery. Mailrunner can archive locally or to a cloud storage device.  Mailrunner currently supports AWS & Rackspace. 
+
+Use the Config file option when using the archive feature to simplify passing archive parameters to mailrunner.  Archive option notes are included directly in the [sample config file](https://gist.github.com/kert-io/3d8d24d048dd25801b7f)
+
+**File Naming**
+All archived messages are saved as json and use the unique message-id as the file name. (NOTE: All illegal file system characters have been replaced with underscores; check the message-id in the message header section when seeking the actual id.) 
+
+When looking for an archived copy of a message, you must locate it by the message-id.  To do so, run the id through the same name-scrubbing process used during the archive process: `/[#<$+%>!&*?=\/:@]/` are replaced with '_'.
+
+###Config File
 
 Mailrunner can also be launched with a config file storing all defaults in one place.  When using a config file, you can launch a mailrunner instance with `mailrunner -c /path/to/config.yml` leaving off all typically required flags.  [sample config file](https://gist.github.com/kert-io/3d8d24d048dd25801b7f)
 
 When using a config file you can set your defaults in the config file but still override them for one-off instances using flags.  The instance will launch according to the config file, but override  only the options passed manually with each flag.
 
 ## Other usage Scenarios
-####dtach
 ###Monit
 	NOTE: before setting up Monit, test manually with desired config file settings. 
 
