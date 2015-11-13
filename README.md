@@ -128,6 +128,7 @@ When using a config file you can set your defaults in the config file but still 
 ## Other usage Scenarios
 ####dtach
 ###Monit
+	NOTE: before setting up Monit, test manually with desired config file settings. 
 
   I prefer to use [Monit](https://mmonit.com/monit/) to manage my worker bots.  Why Monit?  Because I like working with native linux config files when working at the system level. (Many others try to blend conventions and I find it leads to holes in seeing your system and its bugs completely.) 
   
