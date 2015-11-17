@@ -1,6 +1,6 @@
 module BotHelpers
 
-	module Runner
+  module Runner
     def self.get_contents_from_mailbox(mailbox)
       unless File.zero?(mailbox)
 
@@ -44,7 +44,7 @@ module BotHelpers
       unless response.code == 200
     		$logger.error("Runner") { "#post_to_hook::ABORT: Invalid Webhook. Response not 200. NOTE, Must respond to http HEAD method."}
         raise
-    	end
+      end
       return response
     end
     

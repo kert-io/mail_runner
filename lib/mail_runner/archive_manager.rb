@@ -26,7 +26,7 @@ module MailRunner
     end
 
     def self.pop_from_stack
-      key, que_packet = $redis.blpop("archive_stack", :timeout => 5) #timeout needed for MockRedis in Testing Env.
+      que_packet = $redis.blpop("archive_stack", :timeout => 5)[1] #timeout needed for MockRedis in Testing Env.
       $logger.info("Archivist") { "#item popped from stack for processing"}
       data = JSON::parse(que_packet)
       msg = data[0]

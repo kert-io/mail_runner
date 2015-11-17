@@ -128,6 +128,8 @@ All archived messages are saved as json and use the unique message-id as the fil
 
 When looking for an archived copy of a message, you must locate it by the message-id.  To do so, run the id through the same name-scrubbing process used during the archive process: `/[#<$+%>!&*?=\/:@]/` are replaced with '_'.
 
+**NOTE** When using Rackspace, the Fog gem (OS ruby cloud library) used by mailrunner has a [memory leak that is still unresolved](https://github.com/fog/fog/issues/3442). Until it is, I recommend using Monit to keep tabs on this and restart as needed.  Test for a few days & Tune Monit for your usage levels.
+
 ###Config File
 
 Mailrunner can also be launched with a config file storing all defaults in one place.  When using a config file, you can launch a mailrunner instance with `mailrunner -c /path/to/config.yml` leaving off all typically required flags.  [sample config file](https://gist.github.com/kert-io/3d8d24d048dd25801b7f)
@@ -136,7 +138,8 @@ When using a config file you can set your defaults in the config file but still 
 
 ## Other usage Scenarios
 ###Monit
-	NOTE: before setting up Monit, test manually with desired config file settings. 
+
+**NOTE:** before setting up or starting Monit, test manually with desired config file settings!! Monitors conceal stdout messages which is how mailrunner communicates if your config file has an error. 
 
   I prefer to use [Monit](https://mmonit.com/monit/) to manage my worker bots.  Why Monit?  Because I like working with native linux config files when working at the system level. (Many others try to blend conventions and I find it leads to holes in seeing your system and its bugs completely.) 
   

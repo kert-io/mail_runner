@@ -1,13 +1,13 @@
 module BotHelpers
-	module Tests  #series of initial command validation tests on launch. 
+  module Tests  #series of initial command validation tests on launch. 
   	
     def self.all_args_included?(args)
-    	if args[:mailbox].nil? or args[:webhook].nil?
+      if args[:mailbox].nil? or args[:webhook].nil?
     		raise ArgumentError, 'You must include mailbox & webhook minimum. Archive argument is optional. Add -h to see help.' 
   		end
   	end
   	
-  	def self.test_mailbox	(path)
+    def self.test_mailbox	(path)
     	unless File.file?(path)
     		raise ArgumentError, 'ERROR: Mailbox not valid' 
     	end
@@ -27,7 +27,7 @@ module BotHelpers
 
     def self.soft_test_webhook(url) 
       begin
-        response = RestClient.head url
+        RestClient.head url
         MailRunner.manager_bot.update_webhook_status("live")
         $logger.info("ManagerBot") {"webhook status: live"}
       rescue 
@@ -53,8 +53,8 @@ module BotHelpers
     def self.test_cloud_archive_connection(a_set)
       a_set = JSON.parse(a_set.to_json) #Must parse as json, similar to redis queues. Stringifies symbol keys.
       begin
-        response = MailRunner::ArchivistBot.establish_archive_link(a_set)
-      rescue => e
+        MailRunner::ArchivistBot.establish_archive_link(a_set)
+      rescue
        raise ArgumentError, "ERROR: Archive connection failed. Check your archive config options or disable."
       end
     end

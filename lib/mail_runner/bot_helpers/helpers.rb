@@ -60,7 +60,6 @@ module BotHelpers
         unless parts[0].nil? or parts[1].nil?
           key = parts[0].strip.to_sym
           next if key =~ /Return-Path/i
-          value = parts[1].strip
           hash[key] = parts[1].strip
         end
       end

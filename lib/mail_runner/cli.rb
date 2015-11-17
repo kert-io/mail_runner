@@ -15,7 +15,7 @@ module MailRunner
     end
 
 
-		def self.parse_options(argv)
+    def self.parse_options(argv)
       opts = {}
       @parser = OptionParser.new do |o|
         o.on '-m', '--mailbox MAILBOX', "Name of Mailbox to watch" do |arg|

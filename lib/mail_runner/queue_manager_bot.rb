@@ -1,6 +1,5 @@
 module MailRunner
-
-	module QueueManagerBot
+  module QueueManagerBot
 
     def self.add_to_mail_queue(webhook,parcel)
       que_packet = [webhook,parcel]
@@ -44,7 +43,7 @@ module MailRunner
         BotHelpers::Runner.post_to_hook(webhook, json_packet)
       rescue 
         $logger.error("QueueManagerBot") { "#deliver_mail::ERROR: \nServer appears to be down. Make sure the server is running."}
-        queued = self.add_to_mail_queue(webhook, json_packet)
+        self.add_to_mail_queue(webhook, json_packet)
         raise ArgumentError
       end
     end

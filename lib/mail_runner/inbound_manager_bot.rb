@@ -1,6 +1,6 @@
 module MailRunner
 
-	module InboundManagerBot
+  module InboundManagerBot
     
     def self.process_inbound(mailbox, webhook, archive=nil)
       raw_mail = get_mail(mailbox)
@@ -36,10 +36,10 @@ module MailRunner
     def self.deliver_mail(webhook, json_packet)
       begin
         BotHelpers::Runner.post_to_hook(webhook, json_packet)
-      rescue Exception => msg 
+      rescue Exception 
         #interrupt exception here, so rest of inbound mail can be processed and added to queue.
         #otherwise, it will be lost.
-        queued = MailRunner::QueueManagerBot.add_to_mail_queue(webhook, json_packet)
+        MailRunner::QueueManagerBot.add_to_mail_queue(webhook, json_packet)
       end
     end
 
