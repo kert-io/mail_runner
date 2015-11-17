@@ -1,0 +1,22 @@
+# Mailrunner config file. 
+#To use the config file, just add teh -c flag when launching mailrunner.
+# mailrunner -c /absolute/path_to/config.yml
+#absolute means '~/' must be written as '/home/username/...'
+################################################
+
+:mailbox: my_mailbox        #mbox file name
+:webhook: localhost:port_num/webhook  #or any remote or local url endpoint
+#:logfile: /home/username/log_folder/mailrunner.log 
+:daemon:  false
+:verbose: false           #run in debug mode - adds a few more notes to help track down bugs.
+
+#comment out all below to skip archive feature.
+:archive:
+  :destination: local               #local or cloud
+  :local_archive: /path/to/local_archive #path/to/archive_directory #only if destination set to local. folder must exist prior to launching!!
+  :provider: rackspace              #Rackspace, AWS
+  :username: my_name                #Rackspace only 
+  :api_key: some_key                #rackspace 'api_key' or aws 'access_key_id'
+# :secret_key: some_key             #aws only - 'secret_access_key'
+  :region: :iad                     #must be set for aws & Rackspace
+  :directory: raw_msg_archive       #name of cloud directory

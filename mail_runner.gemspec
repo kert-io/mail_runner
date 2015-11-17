@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.description = %q{Gem for inbound mail via Postfix MTA. Creates separate worker process for delivery to app.}
   s.license     = 'MIT'
 
-  s.files         = `git ls-files`.split("\n") #only works once committed to git
+  s.files         = `git ls-files`.split("\n").reject { |f| f.match(%r{^(gists)/}) } #only works once committed to git
   #s.files       = ["lib/mail_runner.rb", "lib/mail_runner/mail_getter_bot.rb", "lib/mail_runner/mail_getter_bot/*"]
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }

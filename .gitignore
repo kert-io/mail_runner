@@ -2,7 +2,6 @@
 .DS_Store
 /.bundle
 
-# Ignore the default SQLite database.
 
 
 # Ignore all logfiles and tempfiles.
