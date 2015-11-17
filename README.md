@@ -252,7 +252,6 @@ With Monit installed, it is easy to set it up to monitor Mailrunner. Monit store
 	
 	
 #Roadmap
-* Archiving
 * Single bot managing several mailboxes and webhooks
 * test server
 

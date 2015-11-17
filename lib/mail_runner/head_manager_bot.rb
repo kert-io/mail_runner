@@ -48,7 +48,7 @@ module MailRunner
     end
 
     def test_options
-    	BotHelpers::Tests.test_mailbox(self.mailbox)
+      BotHelpers::Tests.test_mailbox(self.mailbox)
       BotHelpers::Tests.test_webhook(self.webhook)
       BotHelpers::Tests.test_archive(self.archive) unless self.archive.nil?
     end
