@@ -236,7 +236,7 @@ With Monit installed, it is easy to set it up to monitor Mailrunner. Monit store
    	
    	#process monitor triggers
     if cpu is greater than 10% for 2 cycles then alert
-    if mem is greater than 3% for 1 cycles then restart
+    if mem is greater than 5% for 1 cycles then restart
     if 3 restarts within 5 cycles then timeout
 	```
 	
