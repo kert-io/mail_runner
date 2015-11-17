@@ -139,7 +139,7 @@ When using a config file you can set your defaults in the config file but still 
 ## Other usage Scenarios
 ###Monit
 
-**NOTE:** before setting up or starting Monit, test manually with desired config file settings!! Monitors conceal stdout messages which is how mailrunner communicates if your config file has an error. 
+**NOTE:** before setting up or starting Monit, test manually with desired config file settings!! Monitors conceal stdout messages which is how mailrunner communicates immediately if your config file has an error. 
 
   I prefer to use [Monit](https://mmonit.com/monit/) to manage my worker bots.  Why Monit?  Because I like working with native linux config files when working at the system level. (Many others try to blend conventions and I find it leads to holes in seeing your system and its bugs completely.) 
   

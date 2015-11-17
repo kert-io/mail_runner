@@ -9,7 +9,7 @@ module BotHelpers
   		$logger.info("Helpers") { "path: #{bot.webhook}"}
       unless bot.archive.nil?
         if bot.archive[:destination] == 'cloud'
-  		  $logger.info("Helpers") {"archive: #{bot.archive[:provider]} :: #{bot.archive[:directory]}"}
+  		    $logger.info("Helpers") {"archive: #{bot.archive[:provider]} :: #{bot.archive[:directory]}"}
         else
           $logger.info("Helpers") {"archive: #{bot.archive[:destination]} :: #{bot.archive[:local_archive]}"}
         end
