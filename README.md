@@ -2,9 +2,7 @@
 
 [![Gem Version](https://badge.fury.io/rb/mail_runner.svg)](https://badge.fury.io/rb/mail_runner) [![Code Climate](https://codeclimate.com/github/kert-io/mail_runner/badges/gpa.svg)](https://codeclimate.com/github/kert-io/mail_runner)
 
-**WORK IN PROGRESS**. See Roadmap below for features not yet completed.
-
-MailRunner acts as your mailman picking up your email from an [MTA](https://en.wikipedia.org/wiki/Message_transfer_agent), such as Postfix, and then delivering it directly to your app sending each email object as json to webhook.  You can tell it to deliver locally or send it to any active webhook making it a functional mailserver for several apps.
+MailRunner acts as your mailman picking up your email from an [MTA](https://en.wikipedia.org/wiki/Message_transfer_agent), such as Postfix, and delivering it directly to your app sending each email object in json format to a webhook.  You can tell it to deliver locally or send it to any active webhook making it a functional mailserver for several apps.
 
 MailRunner, although packaged as a gem, only provides a [CLI](https://en.wikipedia.org/wiki/Command-line_interface).  You can launch one or several mailrunner bots via the CLI, daemonize them to run permanently or manage them using a process manager such as monit.  This also means, you can use it as a standalone ruby mail service alongside apps in any other language.
 
@@ -155,7 +153,35 @@ For testing mailrunner out, the basics are all you need.  Before using in produc
 By default, postfix uses the **mbox** format for storing emails it recieves.  This is the format mailrunner expects, so you you are just getting set up, you are good by default.  You can check your mailbox with the `postconf` command.  If you see `home_mailbox = Maildir/` you will need to reset this with `postconf -e home_mailbox =`.(blank signals default) 
 
 ###Aliases
-	
+Create unlimited number email addresses internal to your app with one line of configuration. 
+
+Aliases are used by Postfix to direct mail to the appropriate mailbox. Creative usage can turn them into a super powerful tool  In there most basic, they allow you to direct mail from multi email addresses to a single inbox.  Typically this is specified on an email address by email address basis which means you have to specify each email address here in advance.  But you you can also use them to connect your apps more efficiently.
+
+One approach is to create catchalls that direct all mail for a given domain or sub-domain to a single endpoint. This leaves all sorting to the app itself which is super simple when emails are delivered as json.  Once you have mailrunner set to pick up mail from a mailbox, in this case 'my_mailbox' you just need to tell postfix to deliver all mail for the desired sub-domain to put it in my_mailbox.
+
+Open the aliases document:
+
+```
+sudo vim /etc/aliases
+```
+Now add the postfix catchall instruction as shown below.  When an aliase starts with @ followed by a domain name that Postfix is already configured to recieve for, it will redirect all mail to the mailbox following the :
+
+
+```sh
+#typical format -> webmaster@domain.com goes to root user
+webmaster: root
+
+#catchall format -> all for sub-domain delivered to my_mailbox 
+@post.sub.domain.com: my_mailbox
+``` 
+Save your change and reload postfix configs:
+
+```
+sudo service postfix reload
+```
+Thats it.  You can now sort all emails on the backend and new email addresses can be created on the fly for that sub-domain without ever needing to register each email address with postfix. 
+
+
 #Roadmap
 * Single bot managing several mailboxes and webhooks
 * test server
