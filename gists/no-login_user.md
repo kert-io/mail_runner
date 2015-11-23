@@ -3,11 +3,11 @@ This describes the steps for creating a Linux user with no home directory and no
 
 * Create a user without home file directory
 ```  
- sudo useradd -r <name>
+ sudo useradd -r <username>
  ```
 * Turn off login for this user.
 ```
-sudo usermod -s /bin/false talkpost
+sudo usermod -s /bin/false <username>
 ```
 * Confirm the setting
 ```
