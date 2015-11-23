@@ -18,12 +18,13 @@ gem install mailrunner
 ```
 
 #Usage
-Mailrunner is built with a CLI that is used to launch each bot. When in doubt about commands, add the -h flag. 
+Mailrunner is built with a CLI that is used to launch each bot. When in doubt about commands, add the -h flag.
 ```
-mailrunner -h
+mail_runner -h
 ```
+Don't forget to restart your terminal or the cli will not work!!
 
-the basic commands
+**the basic commands**
 
 ```
 Usage: mail_runner [options]
@@ -42,7 +43,7 @@ The mailbox and webhook options are required; all others are optional.
 1 . To launch a basic mailrunner bot
 
 ```
-mailrunner -m mailbox_name -w http://127.0.0.1:3000/some_webhook_for_mail
+mail_runner -m mailbox_name -w http://127.0.0.1:3000/some_webhook_for_mail
 ```
 
 * the mailbox_name is a registered account with postfix: i.e. a Linux system account.  
