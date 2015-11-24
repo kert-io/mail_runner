@@ -108,6 +108,24 @@ keys | Value
 ###Delayed Queue
 If for any reason, mailrunner is not able to deliver the mail to the specified webhook, it will add it to the mailrunner mail queue to process later. The usual reason this occurs is the webhook is unresponsive, it returns an error code or the server is down. Mailrunner will intermittently test the server if this occurs and once it is working properly, it will process the queue.  If mail is not being delivered, you can check the mailrunner log for details on what is happening on mailrunners end.
 
+###Troubleshooting
+* If you can start mailrunner, but get the following:
+
+```sh
+#<Errno::EACCES: Permission denied @ rb_sysopen - /var/mail/mailbox_name>
+```
+then you need to change the permissions on the mailbox and/or add the username that starts mailrunner to the mail usergroup. 
+
+```sh 
+sudo usermod -a -G mail <username>
+```
+and then set read/write permissions for the whole group with:
+
+```sh
+sudo chmod 660 /var/mail/<mailbox_name>
+```
+
+
 ## Additional Options
 ###Daemonize
  Use the `-d ` flag to turn mailrunner into a [daemon](https://en.wikipedia.org/wiki/Daemon_(computing)) & keep it running in the the background.  When running as a daemon, be sure to set the logfile path using the ` -L ` flag.
