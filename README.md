@@ -116,13 +116,8 @@ If for any reason, mailrunner is not able to deliver the mail to the specified w
 ```
 then you need to change the permissions on the mailbox and/or add the username that starts mailrunner to the mail usergroup. 
 
-```sh 
-sudo usermod -a -G mail <username>
-```
-and then set read/write permissions for the whole group with:
-
 ```sh
-sudo chmod 660 /var/mail/<mailbox_name>
+sudo chmod 666 /var/mail/<mailbox_name>
 ```
 
 
