@@ -200,9 +200,8 @@ Thats it.  You can now sort all emails on the backend and new email addresses ca
 
 #Testing
 #Other helpful setup links
-* Installing Postfix with spamassasin & clamav
-* Setting up Postfix to work with mailrunner
-* Setting up Monit to manage your mailrunner processes
+* [Setup Postfix for inbound with spamassasin & clamav](https://gist.github.com/kert-io/a54b6c02e635b191ddb2)
+* Setting up Postfix
 
 #License
 (The MIT License)
