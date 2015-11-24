@@ -181,7 +181,7 @@ sudo postmap /etc/postfix/virtual
 Now we have to tell post fix to use the vitural domain & mapping by adding the following to main.cf
 
 ```
-virtual_alias_domains = post.sakuru.io,
+virtual_alias_domains = post.sub.domain.com,
 virtual_alias_maps = hash:/etc/postfix/virtual
 ```
 Finally, reload postfix for the changes to take effect
