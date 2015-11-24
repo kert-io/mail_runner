@@ -154,32 +154,42 @@ For testing mailrunner out, the basics are all you need.  Before using in produc
 By default, postfix uses the **mbox** format for storing emails it recieves.  This is the format mailrunner expects, so you you are just getting set up, you are good by default.  You can check your mailbox with the `postconf` command.  If you see `home_mailbox = Maildir/` you will need to reset this with `postconf -e home_mailbox =`.(blank signals default) 
 
 ###Aliases
-Create unlimited number email addresses internal to your app with one line of configuration. 
+Create unlimited number email addresses internal to your app with just a few lines of configuration. 
 
-Aliases are used by Postfix to direct mail to the appropriate mailbox. Creative usage can turn them into a super powerful tool  In there most basic, they allow you to direct mail from multi email addresses to a single inbox.  Typically this is specified on an email address by email address basis which means you have to specify each email address here in advance.  But you you can also use them to connect your apps more efficiently.
+Aliases are used by Postfix to direct mail to the appropriate mailbox. But we can also create virtual domains and sub-domains and then point them all to a single local user mailbox.  If we have mailrunner set to pick up mail at this user mailbox, then it will pick up all mail sent to these sub-domains.
 
-One approach is to create catchalls that direct all mail for a given domain or sub-domain to a single endpoint. This leaves all sorting to the app itself which is super simple when emails are delivered as json.  Once you have mailrunner set to pick up mail from a mailbox, in this case 'my_mailbox' you just need to tell postfix to deliver all mail for the desired sub-domain to put it in my_mailbox.
+This catchall approach leaves all mail sorting to the app itself which is super simple when emails are delivered as json.  Once you have mailrunner set to pick up mail from a mailbox, in this case 'my_mailbox' you just need to tell postfix to deliver all mail for the desired sub-domain to my_mailbox.
 
-Open the aliases document:
+Navigate to the postfix directory
 
 ```
-sudo vim /etc/aliases
+cd /etc/postfix
 ```
-Now add the postfix catchall instruction as shown below.  When an aliase starts with @ followed by a domain name that Postfix is already configured to recieve for, it will redirect all mail to the mailbox following the :
 
+open virtual with `sudo vim virtual` and add the following(change to fit your instance) 
 
-```sh
-#typical format -> webmaster@domain.com goes to root user
-webmaster: root
-
+```
 #catchall format -> all for sub-domain delivered to my_mailbox 
 @post.sub.domain.com: my_mailbox
-``` 
-Save your change and reload postfix configs:
+```
+then update the virtual mapping with
 
 ```
-sudo postalias aliases
+sudo postmap /etc/postfix/virtual
 ```
+
+Now we have to tell post fix to use the vitural domain & mapping by adding the following to main.cf
+
+```
+virtual_alias_domains = post.sakuru.io,
+virtual_alias_maps = hash:/etc/postfix/virtual
+```
+Finally, reload postfix for the changes to take effect
+
+```
+sudo service postfix reload
+```
+
 Thats it.  You can now sort all emails on the backend and new email addresses can be created on the fly for that sub-domain without ever needing to register each email address with postfix. 
 
 
