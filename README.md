@@ -178,7 +178,7 @@ webmaster: root
 Save your change and reload postfix configs:
 
 ```
-sudo service postfix reload
+sudo postalias aliases
 ```
 Thats it.  You can now sort all emails on the backend and new email addresses can be created on the fly for that sub-domain without ever needing to register each email address with postfix. 
 
