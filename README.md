@@ -14,7 +14,7 @@ Mailrunner is designed for a very specific use case.  If you are looking for a g
 
 ###Installation
 ``` 
-gem install mailrunner
+gem install mail_runner
 ```
 
 #Usage
